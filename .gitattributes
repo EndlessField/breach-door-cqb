@@ -1,0 +1,25 @@
+# 文本按 LF 归一；`install.bat` 必须保持 CRLF —— cmd 对括号块与 goto 的换行敏感，
+# 且该文件按中文 Windows 惯例存成 GBK + CRLF（见 AI_README.md 里记录的坑）。
+* text=auto
+
+*.html  text eol=lf
+*.js    text eol=lf
+*.md    text eol=lf
+*.json  text eol=lf
+*.yml   text eol=lf
+*.txt   text eol=lf
+*.ps1   text eol=crlf
+
+# install.bat 是 GBK + CRLF，按原始字节存取，不做任何换行/编码转换
+*.bat   -text
+*.cmd   -text
+
+# 二进制：不要做换行/编码转换，也不要让 git 试图 diff
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.woff2 binary
+*.exe   binary
+*.zip   binary
