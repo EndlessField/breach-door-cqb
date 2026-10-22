@@ -1,0 +1,29 @@
+{
+  "name": "breach-door-cqb",
+  "version": "3.4.0",
+  "private": true,
+  "description": "交火 · 户型图红蓝对抗 —— 纯前端零依赖的室内战术射击小游戏",
+  "keywords": [
+    "game",
+    "canvas",
+    "tactical",
+    "top-down",
+    "tower-defense",
+    "zero-dependency",
+    "offline"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node tools/serve.js",
+    "test": "node tests/run_all.js",
+    "test:verbose": "node tests/run_all.js -v",
+    "check:site": "node tools/check-site.js",
+    "probe:map": "node tests/map_probe.js house",
+    "probe:render": "node tests/map_render.js house",
+    "probe:fog": "node tests/fog_probe.js",
+    "probe:street": "node tests/street_stuck_probe.js"
+  }
+}

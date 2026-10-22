@@ -1,0 +1,62 @@
+name: pages
+
+# 把游戏发布成静态站点：只上传运行必需的 4 个页面 + game/ + 裁剪过的 FontAwesome，
+# 不把 tests/ / .uiwork / 文档塞进站点。
+#
+# 第一次使用前：仓库 Settings → Pages → Source 选 "GitHub Actions"。
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: 组装静态站点
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 组装 _site（页面引用的本地资源必须齐全）
+        run: |
+          set -eu
+          mkdir -p _site/game
+          mkdir -p _site/fontawesome-free-7.3.1-web/css
+          mkdir -p _site/fontawesome-free-7.3.1-web/webfonts
+          cp index.html photo.ico _site/
+          cp game/*.html _site/game/
+          cp fontawesome-free-7.3.1-web/LICENSE.txt _site/fontawesome-free-7.3.1-web/
+          cp fontawesome-free-7.3.1-web/css/all.min.css _site/fontawesome-free-7.3.1-web/css/
+          cp fontawesome-free-7.3.1-web/webfonts/*.woff2 _site/fontawesome-free-7.3.1-web/webfonts/
+          touch _site/.nojekyll
+          node tools/check-site.js _site
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: 部署到 GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
