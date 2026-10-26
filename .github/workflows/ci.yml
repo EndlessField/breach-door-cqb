@@ -1,0 +1,35 @@
+name: tests
+
+# 门禁：25 个零依赖断言脚本。不装任何依赖，所以没有 npm install 步骤。
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    name: 门禁 (node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['20', '22']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: 环境信息
+        run: |
+          node --version
+          node -e "console.log('工作目录:', process.cwd())"
+
+      - name: 全部断言测试（node tests/run_all.js）
+        run: npm test
