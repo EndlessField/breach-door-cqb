@@ -1,0 +1,2 @@
+# 空文件：告诉 GitHub Pages 不要走 Jekyll 构建（按纯静态文件原样发布）。
+# 保留它是为了兼容 Settings → Pages → "Deploy from a branch" 这种部署方式。

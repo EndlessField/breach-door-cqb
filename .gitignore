@@ -1,0 +1,50 @@
+# ---------- 体积/授权上不该进仓库的东西 ----------
+
+# 微软 WebView2 离线安装器：187 MB，超过 GitHub 单文件 100 MB 硬上限，绝对不要提交。
+# 需要离线安装 WebView2 时从微软官网下载，放到项目根目录后由 build-package.ps1 打进发布包。
+MicrosoftEdgeWebView2RuntimeInstallerX86.exe
+
+# 打包产物（Release 里作为附件上传，不进版本库）
+*.zip
+交火_v*.zip
+
+# FontAwesome 7.3.1 完整发行包约 28.8 MB，运行只需要 5 个文件，其余不入库。
+# 需要完整发行包时从 https://fontawesome.com/download 下载同版本放回该目录即可。
+fontawesome-free-7.3.1-web/js/
+fontawesome-free-7.3.1-web/scss/
+fontawesome-free-7.3.1-web/svgs/
+fontawesome-free-7.3.1-web/svgs-full/
+fontawesome-free-7.3.1-web/sprites/
+fontawesome-free-7.3.1-web/sprites-full/
+fontawesome-free-7.3.1-web/metadata/
+fontawesome-free-7.3.1-web/css/*
+!fontawesome-free-7.3.1-web/css/all.min.css
+fontawesome-free-7.3.1-web/webfonts/*
+!fontawesome-free-7.3.1-web/webfonts/*.woff2
+
+# ---------- 可重新生成的产出 ----------
+
+# 探针脚本生成的五张地图 PNG（node tests/map_render.js <map> 随时重画）
+tests/_map_*.png
+
+# .uiwork 下的历史截图与 docs/screenshots/ 是同一批图（README 只引用后者），不重复入库
+.uiwork/shot-*.png
+
+# ---------- 常规忽略 ----------
+
+node_modules/
+npm-debug.log*
+*.log
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 本地临时目录
+_site/
+.tmp/
